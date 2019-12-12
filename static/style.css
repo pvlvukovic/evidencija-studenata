@@ -1,0 +1,32 @@
+.icon-btn {
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0px;
+    margin: 0px;
+    font-size: 20px;
+}
+
+.blue {
+    color: #007bff;
+}
+
+.red {
+    color: #dc3545;
+}
+
+.orange {
+    color: #ffc107;
+}
+
+.icon-btn:hover {
+    opacity: 0.8;
+}
+
+.greska {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
