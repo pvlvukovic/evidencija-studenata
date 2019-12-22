@@ -38,27 +38,30 @@
     <div class="row">
         <table class="table">
             <thead>
-              <tr>
-                <th scope="col">Ime</th>
-                <th scope="col">Prezime</th>
-                <th scope="col">Email</th>
-                <th scope="col">Akcije</th>
-              </tr>
+                <tr>
+                    <th scope="col">Ime</th>
+                    <th scope="col">Prezime</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Akcije</th>
+                </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Slavimir</td>
-                <td>Stosovic</td>
-                <td>slavimir.stosovic@vtsnis.edu.rs</td>
-                <td class="row">
-                    <a href={{ url_for('korisnik_izmena') }} role="button" class="icon-btn orange mx-1"><i class="fas fa-edit"></i></a>
-                    <form action="" class="mx-1">
-                        <button class="icon-btn red"><i class="fas fa-trash"></i></button>
-                    </form>
-                </td>
-              </tr>
+                {% for korisnik in korisnici %}
+                <tr>
+                    <td>{{ korisnik.ime }}</td>
+                    <td>{{ korisnik.prezime }}</td>
+                    <td>{{ korisnik.email }}</td>
+                    <td class="row">
+                        <a href={{ url_for("korisnik_izmena", id=korisnik.id) }} role="button" class="icon-btn orange mx-1"><i
+                                class="fas fa-edit"></i></a>
+                        <form action={{ url_for("korisnik_brisanje", id=korisnik.id) }} method="POST" class="mx-1">
+                            <button class="icon-btn red"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
-          </table>
+        </table>
     </div>
 
 </div>
