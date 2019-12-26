@@ -1,7 +1,10 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, session
 import mysql.connector
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+
+app.secret_key = 'nasTajniKljuc'
 
 konekcija = mysql.connector.connect(
     passwd='root',
@@ -12,13 +15,40 @@ konekcija = mysql.connector.connect(
 
 kursor = konekcija.cursor(dictionary=True)
 
-@app.route('/login')
+def ulogovan():
+    if 'ulogovani_korisnik' in session:
+        return True
+    else:
+        return False
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        forma = request.form
+        upit = "SELECT * FROM korisnici WHERE email=%s"
+        vrednost = (forma['email'],)
+        kursor.execute(upit, vrednost)
+        korisnik = kursor.fetchone()
+        print(korisnik)
+        if check_password_hash(korisnik['lozinka'], forma['lozinka']):
+            session['ulogovani_korisnik'] = str(korisnik)
+            return redirect(url_for('studenti'))
+        else:
+            return render_template('login.html') 
+
+@app.route('/logout')
+def logout():
+    session.pop('ulogovani_korisnik', None)      
+    return redirect(url_for('login'))      
 
 @app.route('/studenti')
 def studenti():
-    return render_template('studenti.html')
+    if ulogovan():
+        return render_template('studenti.html')
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/student_novi')
 def student_novi():
@@ -46,10 +76,13 @@ def predmet_izmena():
 
 @app.route('/korisnici')
 def korisnici():
-    upit = "SELECT * FROM korisnici"
-    kursor.execute(upit)
-    korisnici = kursor.fetchall()
-    return render_template('korisnici.html', korisnici=korisnici)
+    if ulogovan():
+        upit = "SELECT * FROM korisnici"
+        kursor.execute(upit)
+        korisnici = kursor.fetchall()
+        return render_template('korisnici.html', korisnici=korisnici)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/korisnik_novi', methods=['GET', 'POST'])
 def korisnik_novi():
@@ -61,7 +94,8 @@ def korisnik_novi():
                     korisnici(ime,prezime,email,lozinka)
                     VALUES (%s, %s, %s, %s)    
                  """
-        vrednosti = (forma['ime'],forma['prezime'],forma['email'],forma['lozinka'])
+        hesovana_lozinka = generate_password_hash(forma['lozinka'])
+        vrednosti = (forma['ime'],forma['prezime'],forma['email'],hesovana_lozinka)
         kursor.execute(upit, vrednosti)
         konekcija.commit()
         return redirect(url_for('korisnici'))
