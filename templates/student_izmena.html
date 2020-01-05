@@ -33,46 +33,42 @@
     <div class="row">
         <div class="col-xs-12">
             <h2 class="my-5">Izmena studenta</h2>
-            <form>
+            <form action={{ url_for('student_izmena', id=student.id) }} method="POST">
                 <div class="form-group">
                     <label for="broj_indeksa">Broj indeksa</label>
-                    <input type="text" class="form-control" id="broj_indeksa">
+                    <input type="text" class="form-control" name="broj_indeksa" value="{{student.broj_indeksa}}">
                 </div>
                 <div class="form-group">
                     <label for="ime">Ime</label>
-                    <input type="text" class="form-control" id="ime">
+                    <input type="text" class="form-control" name="ime" value="{{student.ime}}">
                 </div>
                 <div class="form-group">
                     <label for="ime_roditelja">Ime roditelja</label>
-                    <input type="text" class="form-control" id="ime_roditelja">
+                    <input type="text" class="form-control" name="ime_roditelja" value="{{student.ime_roditelja}}">
                 </div>
                 <div class="form-group">
                     <label for="prezime">Prezime</label>
-                    <input type="text" class="form-control" id="prezime">
-                </div>
-                <div class="form-group">
-                    <label for="ime">Ime</label>
-                    <input type="text" class="form-control" id="ime">
+                    <input type="text" class="form-control" name="prezime" value="{{student.prezime}}">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email">
+                    <input type="email" class="form-control" name="email" value="{{student.email}}">
                 </div>
                 <div class="form-group">
                     <label for="broj_telefona">Broj telefona</label>
-                    <input type="text" class="form-control" id="broj_telefona">
+                    <input type="text" class="form-control" name="broj_telefona" value="{{student.broj_telefona}}">
                 </div>
                 <div class="form-group">
                     <label for="godina_studija">Godina studija</label>
-                    <input type="number" class="form-control" id="godina_studija">
+                    <input type="number" class="form-control" name="godina_studija" value="{{student.godina_studija}}">
                 </div>
                 <div class="form-group">
                     <label for="datum_rodjenja">Datum rodjenja</label>
-                    <input type="date" class="form-control" id="datum_rodjenja">
+                    <input type="date" class="form-control" name="datum_rodjenja" value="{{student.datum_rodjenja}}">
                 </div>
                 <div class="form-group">
                     <label for="jmbg">JMBG</label>
-                    <input type="number" class="form-control" id="jmbg">
+                    <input type="number" class="form-control" name="jmbg" value="{{student.jmbg}}">
                 </div>
                 <button type="submit" class="btn btn-primary">Sacuvaj</button>
             </form>

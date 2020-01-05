@@ -33,46 +33,42 @@
     <div class="row">
         <div class="col-xs-12">
             <h2 class="my-5">Novi student</h2>
-            <form>
+            <form action={{ url_for('student_novi') }} method="POST">
                 <div class="form-group">
                     <label for="broj_indeksa">Broj indeksa</label>
-                    <input type="text" class="form-control" id="broj_indeksa">
+                    <input type="text" class="form-control" id="broj_indeksa" name="broj_indeksa">
                 </div>
                 <div class="form-group">
                     <label for="ime">Ime</label>
-                    <input type="text" class="form-control" id="ime">
+                    <input type="text" class="form-control" id="ime" name="ime">
                 </div>
                 <div class="form-group">
                     <label for="ime_roditelja">Ime roditelja</label>
-                    <input type="text" class="form-control" id="ime_roditelja">
+                    <input type="text" class="form-control" id="ime_roditelja" name="ime_roditelja">
                 </div>
                 <div class="form-group">
                     <label for="prezime">Prezime</label>
-                    <input type="text" class="form-control" id="prezime">
-                </div>
-                <div class="form-group">
-                    <label for="ime">Ime</label>
-                    <input type="text" class="form-control" id="ime">
+                    <input type="text" class="form-control" id="prezime" name="prezime">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email">
+                    <input type="email" class="form-control" id="email" name="email">
                 </div>
                 <div class="form-group">
                     <label for="broj_telefona">Broj telefona</label>
-                    <input type="text" class="form-control" id="broj_telefona">
+                    <input type="text" class="form-control" id="broj_telefona" name="broj_telefona">
                 </div>
                 <div class="form-group">
                     <label for="godina_studija">Godina studija</label>
-                    <input type="number" class="form-control" id="godina_studija">
+                    <input type="number" class="form-control" id="godina_studija" name="godina_studija">
                 </div>
                 <div class="form-group">
                     <label for="datum_rodjenja">Datum rodjenja</label>
-                    <input type="date" class="form-control" id="datum_rodjenja">
+                    <input type="date" class="form-control" id="datum_rodjenja" name="datum_rodjenja">
                 </div>
                 <div class="form-group">
                     <label for="jmbg">JMBG</label>
-                    <input type="number" class="form-control" id="jmbg">
+                    <input type="number" class="form-control" id="jmbg" name="jmbg">
                 </div>
                 <button type="submit" class="btn btn-primary">Sacuvaj</button>
             </form>

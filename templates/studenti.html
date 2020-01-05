@@ -54,21 +54,25 @@
                 </tr>
             </thead>
             <tbody>
+                {% for student in studenti %}
                 <tr>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>Makovic</td>
-                    <td>3</td>
-                    <td>100</td>
-                    <td>8.5</td>
+                    <td>{{ student.broj_indeksa }}</td>
+                    <td>{{ student.ime }}</td>
+                    <td>{{ student.prezime }}</td>
+                    <td>{{ student.godina_studija }}</td>
+                    <td>{{ student.espb }}</td>
+                    <td>{{ student.prosek_ocena }}</td>
                     <td class="row">
-                        <a href={{ url_for('student') }} role="button" class="icon-btn blue mx-1"><i class="far fa-eye"></i></a>
-                        <a href={{ url_for('student_izmena') }} role="button" class="icon-btn orange mx-1"><i class="fas fa-edit"></i></a>
-                        <form action="" class="mx-1">
+                        <a href={{ url_for('student', id=student.id) }} role="button" class="icon-btn blue mx-1"><i
+                                class="far fa-eye"></i></a>
+                        <a href={{ url_for('student_izmena', id=student.id) }} role="button" class="icon-btn orange mx-1"><i
+                                class="fas fa-edit"></i></a>
+                        <form action={{ url_for('student_brisanje', id=student.id) }} method="GET" class="mx-1">
                             <button class="icon-btn red"><i class="fas fa-trash"></i></button>
                         </form>
                     </td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
