@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = "nasTajniKljuc"
 
 konekcija = mysql.connector.connect(
-    passwd="root", user="phpmyadmin", database="evidencija_studenata", port=3306
+    passwd="root", user="phpmyadmin", database="evidencija_studenata", port=3306, auth_plugin='mysql_native_password'
 )
 
 kursor = konekcija.cursor(dictionary=True)
@@ -355,8 +355,8 @@ def ocena_nova(id):
         kursor.execute(upit, vrednost)
         espb = kursor.fetchone()
         # Update tabele student
-        upit = "UPDATE studenti SET espb=%s, prosek_ocena=%s"
-        vrednosti = (espb['rezultat'], prosek_ocena['rezultat'])
+        upit = "UPDATE studenti SET espb=%s, prosek_ocena=%s WHERE id=%s"
+        vrednosti = (espb['rezultat'], prosek_ocena['rezultat'], id)
         kursor.execute(upit, vrednosti)
         konekcija.commit()
         return redirect(url_for('student', id=id))
@@ -381,8 +381,8 @@ def ocena_brisanje(student_id, ocena_id):
         kursor.execute(upit, vrednost)
         espb = kursor.fetchone()
         # Update tabele student
-        upit = "UPDATE studenti SET espb=%s, prosek_ocena=%s"
-        vrednosti = (espb['rezultat'], prosek_ocena['rezultat'])
+        upit = "UPDATE studenti SET espb=%s, prosek_ocena=%s WHERE id=%s"
+        vrednosti = (espb['rezultat'], prosek_ocena['rezultat'], id)
         kursor.execute(upit, vrednosti)
         konekcija.commit()
         return redirect(url_for('student', id=student_id))
