@@ -19,6 +19,10 @@
     color: #ffc107;
 }
 
+.gray {
+    color: #666666;
+}
+
 .icon-btn:hover {
     opacity: 0.8;
 }
@@ -29,4 +33,21 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.inline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100px;
+}
+
+.inline-btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.logo {
+    height: 40px;
 }

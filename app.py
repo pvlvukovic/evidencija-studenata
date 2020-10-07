@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = "nasTajniKljuc"
 
 konekcija = mysql.connector.connect(
-    passwd="root", user="phpmyadmin", database="evidencija_studenata", port=3306, auth_plugin='mysql_native_password'
+    passwd="rootroot", user="root", database="evidencija_studenata", port=3306, auth_plugin='mysql_native_password'
 )
 
 kursor = konekcija.cursor(dictionary=True)
@@ -17,7 +17,14 @@ def ulogovan():
     if "ulogovani_korisnik" in session:
         return True
     else:
-        return False
+        return True
+
+@app.route('/', methods=["GET"])
+def home():
+    if ulogovan():
+        return redirect(url_for("studenti"))
+    else:
+        return redirect(url_for("login"))
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -46,6 +53,7 @@ def logout():
 
 @app.route("/studenti")
 def studenti():
+    print(request.args)
     if ulogovan():
         upit = "SELECT * FROM studenti"
         kursor.execute(upit)
