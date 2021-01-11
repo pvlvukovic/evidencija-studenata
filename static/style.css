@@ -1,53 +1,102 @@
 .icon-btn {
-    background: none;
-    border: none;
-    outline: none;
-    padding: 0px;
-    margin: 0px;
-    font-size: 20px;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0px;
+  margin: 0px;
+  font-size: 16px;
 }
 
 .blue {
-    color: #007bff;
+  color: #007bff;
 }
 
 .red {
-    color: #dc3545;
+  color: #dc3545;
 }
 
 .orange {
-    color: #ffc107;
+  color: #ffc107;
 }
 
 .gray {
-    color: #666666;
+  color: #666666;
 }
 
 .icon-btn:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .greska {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .inline {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100px;
 }
 
 .inline-btns {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  margin-bottom: -24px;
+}
+
+th a {
+  visibility: hidden;
+  display: none;
+}
+
+.inline-btns a {
+  visibility: visible;
+  display: inline;
 }
 
 .logo {
-    height: 40px;
+  height: 40px;
+}
+
+#slika_pregled {
+  height: 150px;
+  width: 150px;
+  border-radius: 150px;
+  background-color: #999999;
+  object-fit: cover;
+}
+
+.password {
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.header-btn {
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+label.header-btn {
+  /* border: solid 1px black; */
+  margin: 0;
+}
+
+.light-icon {
+  color: #cccccc;
+}
+
+th {
+  /* font-size: 12px; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

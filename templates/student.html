@@ -17,15 +17,17 @@
             <li class="nav-item active">
                 <a class="nav-link" href={{ url_for('studenti') }}>Studenti</a>
             </li>
+            {% if (rola == 'administrator') %}
             <li class="nav-item">
                 <a class="nav-link" href={{ url_for('predmeti') }}>Predmeti</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href={{ url_for('korisnici') }}>Korisnici</a>
             </li>
+            {% endif %}
         </ul>
-        <form class="form-inline">
-            <button class="icon-btn gray" type="submit">
+        <form class="form-inline" action={{ url_for('logout') }} method="GET">
+                <button class="icon-btn gray" type="submit">
                 <i class="fas fa-sign-out-alt"></i>
             </button>
         </form>
@@ -39,6 +41,17 @@
         <div class="col-xs-12 col-md-6">
             <table class="table table-striped table-bordered">
                 <tbody>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <img 
+                            {%if student.slika%}
+                            src="/static/uploads/{{ student.slika }}"
+                            {%else%}
+                            src="/static/placeholder.png"
+                            {%endif%} 
+                            id="slika_pregled" />
+                        </td>
+                    </tr>
                     <tr>
                         <th>Ime</th>
                         <td>{{student.ime}}</td>
@@ -83,15 +96,33 @@
                         <th>Prosek ocena</th>
                         <td>{{student.prosek_ocena}}</td>
                     </tr>
+                    {% if (rola == 'administrator') %}
                     <tr>
                         <th>Akcije</th>
                         <td>
                             <a href={{ url_for('student_izmena', id=student.id) }} role="button"
                                 class="icon-btn orange mx-1"><i class="fas fa-edit"></i></a>
-                            <a href={{ url_for('student_brisanje', id=student.id) }} role="button"
-                                class="icon-btn red mx-1"><i class="fas fa-trash"></i></a>
+                            <button class="icon-btn red mx-1" data-toggle="modal" data-target="#deleteModal{{student.id}}">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </td>
                     </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteModal{{student.id}}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    Sigurno želite da obrišete studenta {{ student.ime }} {{ student.prezime }}?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                                    <a href={{ url_for('student_brisanje', id=student.id) }} role="button"
+                                    class="btn btn-danger">Obriši</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
@@ -119,8 +150,9 @@
     </div>
 
     <div class="row my-5">
+        <div class="col-12">
         <table class="table table-striped table-bordered">
-            <form>
+            <!-- <form>
                 <thead>
                     <tr>
                         <th scope="col">
@@ -180,7 +212,7 @@
                         </th>
                     </tr>
                 </thead>
-            </form>
+            </form> -->
             <thead>
                 <tr>
                     <th scope="col">Sifra</th>
@@ -202,13 +234,30 @@
                     <td>{{ ocena.espb }}</td>
                     <td>{{ ocena.ocena }}</td>
                     <td class>
-                        <a href={{ url_for('ocena_brisanje', student_id=student.id, ocena_id=ocena.id) }}
-                            class="icon-btn red mx-1"><i class="fas fa-trash"></i></a>
+                        <button class="icon-btn red mx-1" data-toggle="modal" data-target="#deleteOcena{{ocena.id}}">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </td>
                 </tr>
+                <!-- Modal -->
+                <div class="modal fade" id="deleteOcena{{ocena.id}}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                Sigurno želite da obrišete ocenu {{ ocena.ocena }} iz predmeta {{ ocena.naziv }}?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                                <a href={{ url_for('ocena_brisanje', student_id=student.id, ocena_id=ocena.id) }} role="button"
+                                class="btn btn-danger">Obriši</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% endfor %}
             </tbody>
         </table>
+    </div>
     </div>
 
 </div>

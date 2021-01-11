@@ -17,15 +17,17 @@
             <li class="nav-item active">
                 <a class="nav-link" href={{ url_for('studenti') }}>Studenti</a>
             </li>
+            {% if (rola == 'administrator') %}
             <li class="nav-item">
                 <a class="nav-link" href={{ url_for('predmeti') }}>Predmeti</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href={{ url_for('korisnici') }}>Korisnici</a>
             </li>
+            {% endif %}
         </ul>
-        <form class="form-inline">
-            <button class="icon-btn gray" type="submit">
+        <form class="form-inline" action={{ url_for('logout') }} method="GET">
+                <button class="icon-btn gray" type="submit">
                 <i class="fas fa-sign-out-alt"></i>
             </button>
         </form>
@@ -37,7 +39,15 @@
     <div class="row">
         <div class="col-xs-12">
             <h2 class="my-5">Novi student</h2>
-            <form action={{ url_for('student_novi') }} method="POST">
+            <form action={{ url_for('student_novi') }} method="POST" enctype="multipart/form-data">
+                <!-- student_novi -->
+                <div class="form-group">
+                    <label for="slika">
+                        <img id="slika_pregled" src="/static/placeholder.png" />
+                    </label>
+                    <label for="slika" class="btn btn-primary">Odaberi sliku</label>
+                    <input type="file" accept="image/*" class="custom-file-input" hidden id="slika" name="slika">
+                </div>
                 <div class="form-group">
                     <label for="broj_indeksa">Broj indeksa</label>
                     <input type="text" class="form-control" id="broj_indeksa" name="broj_indeksa">

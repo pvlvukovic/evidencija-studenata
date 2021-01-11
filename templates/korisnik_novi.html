@@ -17,15 +17,17 @@
             <li class="nav-item">
                 <a class="nav-link" href={{ url_for('studenti') }}>Studenti</a>
             </li>
+            {% if (rola == 'administrator') %}
             <li class="nav-item">
                 <a class="nav-link" href={{ url_for('predmeti') }}>Predmeti</a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href={{ url_for('korisnici') }}>Korisnici</a>
             </li>
+            {% endif %}
         </ul>
-        <form class="form-inline">
-            <button class="icon-btn gray" type="submit">
+        <form class="form-inline" action={{ url_for('logout') }} method="GET">
+                <button class="icon-btn gray" type="submit">
                 <i class="fas fa-sign-out-alt"></i>
             </button>
         </form>
@@ -38,6 +40,13 @@
         <div class="col-xs-12">
             <h2 class="my-5">Novi korisnik</h2>
             <form action={{ url_for('korisnik_novi') }} method="POST">
+                <div class="form-group">
+                    <label for="rola">Rola</label>
+                    <select id="rola" name="rola" class="form-control">
+                        <option value="administrator">Administrator</option>
+                        <option value="profesor">Profesor</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="ime">Ime</label>
                     <input type="text" class="form-control" id="ime" name="ime">

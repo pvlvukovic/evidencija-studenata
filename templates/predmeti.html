@@ -17,15 +17,17 @@
             <li class="nav-item">
                 <a class="nav-link" href={{ url_for('studenti') }}>Studenti</a>
             </li>
+            {% if (rola == 'administrator') %}
             <li class="nav-item active">
                 <a class="nav-link" href={{ url_for('predmeti') }}>Predmeti</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href={{ url_for('korisnici') }}>Korisnici</a>
             </li>
+            {% endif %}
         </ul>
-        <form class="form-inline">
-            <button class="icon-btn gray" type="submit">
+        <form class="form-inline" action={{ url_for('logout') }} method="GET">
+                <button class="icon-btn gray" type="submit">
                 <i class="fas fa-sign-out-alt"></i>
             </button>
         </form>
@@ -36,6 +38,8 @@
 <div class="container">
 
     <div class="row my-5 justify-content-end">
+        <a href={{ url_for('export', tip="predmeti") }} role="button" class="btn btn-success mr-3">Export</a>
+        
         <a href={{ url_for('predmet_novi') }} role="button" class="btn btn-primary">Dodaj predmet</a>
     </div>
 
@@ -46,62 +50,112 @@
                     <tr>
                         <th scope="col">
                             <div class="input-group input-group-sm">
-                                <input placeholder="Šifra" type="text" class="form-control">
+                                <input value="{{ args.sifra }}" name="sifra" placeholder="Šifra" type="text" class="form-control">
                             </div>
                         </th>
                         <th scope="col">
                             <div class="input-group input-group-sm">
-                                <input placeholder="Naziv" type="text" class="form-control">
+                                <input value="{{ args.naziv }}" name="naziv" placeholder="Naziv" type="text" class="form-control">
                             </div>
                         </th>
                         <th scope="col">
                             <div class="input-group input-group-sm">
-                                <select class="form-control">
-                                    <option>Sve</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
+                                <select name="godina_studija" class="form-control">
+                                    <option value="">Sve</option>
+                                    <option {%if args.godina_studija == '1'%}selected{% endif %} value="1">1</option>
+                                    <option {%if args.godina_studija == '2'%}selected{% endif %} value="2">2</option>
+                                    <option {%if args.godina_studija == '3'%}selected{% endif %} value="3">3</option>
                                 </select>
                             </div>
                         </th>
                         <th scope="col">
                             <div class="inline">
                                 <div class="input-group input-group-sm mr-3"">
-                                    <input placeholder="Od" type="text" class="form-control">
+                                    <input value="{{ args.espb_od }}" name="espb_od" placeholder="Od" type="text" class="form-control">
                                 </div>
                                 <div class="input-group input-group-sm">
-                                    <input placeholder="Do" type="text" class="form-control">
+                                    <input value="{{ args.espb_do }}" name="espb_do" placeholder="Do" type="text" class="form-control">
                                 </div>
                             </div>
                         </th>
                         <th scope="col">
                             <div class="input-group input-group-sm">
-                                <select class="form-control">
-                                    <option>Svi</option>
-                                    <option>Obavezni</option>
-                                    <option>Izborni</option>
+                                <select name="obavezni_izborni" class="form-control">
+                                    <option value="">Svi</option>
+                                    <option {%if args.obavezni_izborni == 'obavezni'%}selected{% endif %}  value="obavezni">Obavezni</option>
+                                    <option {%if args.obavezni_izborni == 'izborni'%}selected{% endif %} value="izborni">Izborni</option>
                                 </select>
                             </div>
                         </th>
                         <th scope="col">
                             <div class="inline-btns">
                                 <button type="submit" class="btn btn-primary btn-sm mr-3">Pretraži</button>
-                                <button type="reset" class="btn btn-secondary btn-sm">Poništi</button>
+                                <a role="button" class="btn btn-secondary btn-sm" href="{{ url_for('predmeti') }}" >Poništi</button>
                             </div>
                         </th>
                     </tr>
                 </thead>
-            </form>
             <thead>
-                <tr>
-                    <th scope="col">Sifra</th>
-                    <th scope="col">Naziv</th>
-                    <th scope="col">Godina studija</th>
-                    <th scope="col">ESPB</th>
-                    <th scope="col">Obavezni / Izborni</th>
-                    <th scope="col">Akcije</th>
-                </tr>
+                    <tr>
+                        <th scope="col">
+                            <input value="Sifra" class="header-btn" type="submit" name="order_by">
+                            {% if order_type == 'asc' and args.order_by == 'Sifra' %}
+                            <i class="fas fa-sort-up"></i>
+                            {% elif order_type == 'desc' and args.order_by == 'Sifra' %}
+                            <i class="fas fa-sort-down"></i>
+                        {% else %}
+                        <i class="fas fa-sort light-icon"></i>
+                            {% endif %}
+                        </th>
+                        <th scope="col">
+                            <input value="Naziv" class="header-btn" type="submit" name="order_by">
+                            {% if order_type == 'asc' and args.order_by == 'Naziv' %}
+                            <i class="fas fa-sort-up"></i>
+                            {% elif order_type == 'desc' and args.order_by == 'Naziv' %}
+                            <i class="fas fa-sort-down"></i>
+                        {% else %}
+                        <i class="fas fa-sort light-icon"></i>
+                            {% endif %}
+                        </th>
+                        <th scope="col">
+                            <label for="order_by_godina_studija" class="header-btn">Godina studija</label>
+                            <input style="display: none;" id="order_by_godina_studija" value="godina_studija" class="header-btn" type="submit" name="order_by">
+                            {% if order_type == 'asc' and args.order_by == 'godina_studija' %}
+                            <i class="fas fa-sort-up"></i>
+                            {% elif order_type == 'desc' and args.order_by == 'godina_studija' %}
+                            <i class="fas fa-sort-down"></i>
+                        {% else %}
+                        <i class="fas fa-sort light-icon"></i>
+                            {% endif %}
+                        </th>
+                        <th scope="col">
+                            <input value="ESPB" class="header-btn" type="submit" name="order_by">
+                            {% if order_type == 'asc' and args.order_by == 'ESPB' %}
+                            <i class="fas fa-sort-up"></i>
+                            {% elif order_type == 'desc' and args.order_by == 'ESPB' %}
+                            <i class="fas fa-sort-down"></i>
+                        {% else %}
+                        <i class="fas fa-sort light-icon"></i>
+                            {% endif %}
+                        </th>
+                        <th scope="col">
+                            <label for="order_by_obavezni_izborni" class="header-btn">Obavezni / Izborni</label>
+                            <input style="display: none;" id="order_by_obavezni_izborni" value="obavezni_izborni" class="header-btn" type="submit" name="order_by">
+                            {% if order_type == 'asc' and args.order_by == 'obavezni_izborni' %}
+                            <i class="fas fa-sort-up"></i>
+                            {% elif order_type == 'desc' and args.order_by == 'obavezni_izborni' %}
+                            <i class="fas fa-sort-down"></i>
+                        {% else %}
+                        <i class="fas fa-sort light-icon"></i>
+                            {% endif %}
+                        </th>
+                        <th scope="col">Akcije</th>
+                    </tr>
             </thead>
+            <input name="prethodni_order_by" value="{{ args.order_by }}" hidden>
+            <input name="order_type" value="{{ order_type }}" hidden>
+            <input name="page" value="{{ strana }}" hidden />
+        </form>
             <tbody>
                 {% for predmet in predmeti %}
                 <tr>
@@ -113,10 +167,26 @@
                     <td>
                         <a href={{ url_for('predmet_izmena', id=predmet.id) }} role="button"
                             class="icon-btn orange mx-1"><i class="fas fa-edit"></i></a>
-                        <a href={{ url_for('predmet_brisanje', id=predmet.id) }} role="button"
-                            class="icon-btn red mx-1"><i class="fas fa-trash"></i></a>
+                        <button class="icon-btn red mx-1" data-toggle="modal" data-target="#deleteModal{{predmet.id}}">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </td>
                 </tr>
+                <!-- Modal -->
+                <div class="modal fade" id="deleteModal{{predmet.id}}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                Sigurno želite da obrišete predmet {{ predmet.naziv }}?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                                <a href={{ url_for('predmet_brisanje', id=predmet.id) }} role="button"
+                                class="btn btn-danger">Obriši</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% endfor %}
             </tbody>
         </table>
@@ -124,14 +194,12 @@
     
     <nav>
         <ul class="pagination justify-content-center mt-3">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            <li class="page-item {% if strana=='1' %} disabled {% endif %}">
+                <a class="page-link" href="{{ prethodna_strana }}">Prethodna</a>
             </li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item active"><a class="page-link" href="#">{{ strana }}</a></li>
             <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+                <a class="page-link" href="{{ sledeca_strana }}">Sledeca</a>
             </li>
         </ul>
     </nav>

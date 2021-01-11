@@ -17,15 +17,17 @@
             <li class="nav-item">
                 <a class="nav-link" href={{ url_for('studenti') }}>Studenti</a>
             </li>
+            {% if (rola == 'administrator') %}
             <li class="nav-item active">
                 <a class="nav-link" href={{ url_for('predmeti') }}>Predmeti</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href={{ url_for('korisnici') }}>Korisnici</a>
             </li>
+            {% endif %}
         </ul>
-        <form class="form-inline">
-            <button class="icon-btn gray" type="submit">
+        <form class="form-inline" action={{ url_for('logout') }} method="GET">
+                <button class="icon-btn gray" type="submit">
                 <i class="fas fa-sign-out-alt"></i>
             </button>
         </form>
